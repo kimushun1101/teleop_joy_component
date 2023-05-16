@@ -61,7 +61,7 @@ void TeleopJoy::joy_callback(sensor_msgs::msg::Joy::ConstSharedPtr msg)
 
   // Template for detecting a button
   if (msg->buttons[input_["L_btn_right"].as<uint8_t>()]) {
-    RCLCPP_INFO_STREAM(
+    RCLCPP_DEBUG_STREAM(
       this->get_logger(),
       "Pressed " << "L_btn_right" << " : button " << input_["L_btn_right"]);
   }
@@ -77,7 +77,7 @@ void TeleopJoy::joy_callback(sensor_msgs::msg::Joy::ConstSharedPtr msg)
   };
   for (const auto & n : axis_names_) {
     if (msg->axes[input_[n].as<uint8_t>()]) {
-      RCLCPP_INFO_STREAM(this->get_logger(), "Pressed " << n << " : axis " << input_[n]);
+      RCLCPP_DEBUG_STREAM(this->get_logger(), "Pressed " << n << " : axis " << input_[n]);
     }
   }
   std::vector<std::string> buttons_names_ = {
@@ -94,7 +94,7 @@ void TeleopJoy::joy_callback(sensor_msgs::msg::Joy::ConstSharedPtr msg)
   };
   for (const auto & n : buttons_names_) {
     if (msg->buttons[input_[n].as<uint8_t>()]) {
-      RCLCPP_INFO_STREAM(this->get_logger(), "Pressed " << n << " : button " << input_[n]);
+      RCLCPP_DEBUG_STREAM(this->get_logger(), "Pressed " << n << " : button " << input_[n]);
     }
   }
 }

@@ -1,0 +1,16 @@
+L_stick_hoz: 0
+L_stick_ver: 1
+R_stick_hoz: 2
+R_stick_ver: 3
+L_cross_hoz: 4
+L_cross_ver: 5
+L_btn_left: 0
+L_btn_right: 2
+L_btn_up: 3
+L_btn_down: 1
+L_trigger_1: 4
+L_trigger_2: 6
+R_trigger_1: 5
+R_trigger_2: 7
+L_stick_push: 10
+R_stick_push: 11

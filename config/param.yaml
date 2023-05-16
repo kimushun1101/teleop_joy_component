@@ -1,0 +1,5 @@
+teleop_joy:
+  ros__parameters:
+    # assignment_file : "JC-U3912TBK.yaml"
+    assignment_file : "F710_D_input.yaml"
+    cmd_vel_topic_name : "cmd_vel"

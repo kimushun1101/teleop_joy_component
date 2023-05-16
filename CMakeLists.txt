@@ -23,16 +23,9 @@ find_package(ament_cmake_auto REQUIRED)
 ament_auto_find_build_dependencies()
 
 ament_auto_add_library(teleop_joy SHARED src/teleop_joy.cpp)
-target_link_libraries(teleop_joy yaml-cpp)
+target_link_libraries(teleop_joy yaml-cpp) # Why is it necessary?
 rclcpp_components_register_nodes(teleop_joy "teleop_joy::TeleopJoy")
-
 ament_auto_add_executable(config_joy src/config_joy.cpp)
-target_link_libraries(config_joy yaml-cpp)
-
-install(TARGETS
-  teleop_joy
-  config_joy
-  DESTINATION lib/${PROJECT_NAME})
 
 install(DIRECTORY
   launch

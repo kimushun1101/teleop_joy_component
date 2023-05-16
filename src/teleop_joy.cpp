@@ -14,11 +14,6 @@
 
 #include "teleop_joy/teleop_joy.hpp"
 
-#include <iostream>
-#include <memory>
-
-using std::placeholders::_1;
-
 namespace teleop_joy
 {
 TeleopJoy::TeleopJoy(const rclcpp::NodeOptions & options)
@@ -29,17 +24,22 @@ TeleopJoy::TeleopJoy(const rclcpp::NodeOptions & options)
   this->declare_parameter<double>("max.v", 1.0);
   this->declare_parameter<double>("max.w", 1.0);
 
-  auto path = ament_index_cpp::get_package_share_directory("teleop_joy") + "/config/" + this->get_parameter("assignment_file").as_string();
-  try{
+  auto path = ament_index_cpp::get_package_share_directory("teleop_joy") + "/config/" +
+    this->get_parameter("assignment_file").as_string();
+  try {
     RCLCPP_INFO_STREAM(this->get_logger(), "Success to open " << path);
     input_ = YAML::LoadFile(path);
-  }catch(...){
+  } catch (...) {
     RCLCPP_ERROR_STREAM(this->get_logger(), "Failed to open " << path);
-    RCLCPP_ERROR_STREAM(this->get_logger(), "Edit 'assignment_file' in 'config/param.yaml' then colcon build");
+    RCLCPP_ERROR_STREAM(
+      this->get_logger(), "Edit 'assignment_file' in 'config/param.yaml' then colcon build");
   }
 
   auto cmd_vel_topic_name = this->get_parameter("cmd_vel_topic_name").as_string();
-  sub_ = create_subscription<sensor_msgs::msg::Joy>("joy", 1, std::bind(&TeleopJoy::joy_callback, this, _1));
+  sub_ =
+    create_subscription<sensor_msgs::msg::Joy>(
+    "joy", 1,
+    std::bind(&TeleopJoy::joy_callback, this, std::placeholders::_1));
   pub_ = create_publisher<geometry_msgs::msg::Twist>(cmd_vel_topic_name, 1);
 }
 
@@ -47,22 +47,25 @@ void TeleopJoy::joy_callback(sensor_msgs::msg::Joy::ConstSharedPtr msg)
 {
   // Publish cmd_vel
   geometry_msgs::msg::Twist cmd_vel;
-  if(msg->buttons[input_["L_trigger_1"].as<uint8_t>()]){
+  if (msg->buttons[input_["L_trigger_1"].as<uint8_t>()]) {
     auto v_max = this->get_parameter("max.v").as_double();
     auto w_max = this->get_parameter("max.w").as_double();
     cmd_vel.linear.x = v_max * msg->axes[input_["L_stick_ver"].as<uint8_t>()];
     cmd_vel.linear.y = v_max * msg->axes[input_["L_stick_hoz"].as<uint8_t>()];
     cmd_vel.angular.z = w_max * msg->axes[input_["R_stick_hoz"].as<uint8_t>()];
-    RCLCPP_DEBUG_STREAM(this->get_logger(),"[linear.x, linear.y, angular.z] = ["
-      << cmd_vel.linear.x << ", " << cmd_vel.linear.y << ", " << cmd_vel.angular.z << "]");
+    RCLCPP_DEBUG_STREAM(
+      this->get_logger(), "[linear.x, linear.y, angular.z] = ["
+        << cmd_vel.linear.x << ", " << cmd_vel.linear.y << ", " << cmd_vel.angular.z << "]");
   }
   this->pub_->publish(cmd_vel);
 
   // Template for detecting a button
-  if(msg->buttons[input_["L_btn_right"].as<uint8_t>()]){
-    RCLCPP_INFO_STREAM(this->get_logger(), "Pressed " << "L_btn_right" << " : button " << input_["L_btn_right"]);
+  if (msg->buttons[input_["L_btn_right"].as<uint8_t>()]) {
+    RCLCPP_INFO_STREAM(
+      this->get_logger(),
+      "Pressed " << "L_btn_right" << " : button " << input_["L_btn_right"]);
   }
- 
+
   // Debug
   std::vector<std::string> axis_names_ = {
     "L_stick_hoz",
@@ -72,8 +75,8 @@ void TeleopJoy::joy_callback(sensor_msgs::msg::Joy::ConstSharedPtr msg)
     "L_cross_hoz",
     "L_cross_ver"
   };
-  for(const auto  &n : axis_names_){
-    if(msg->axes[input_[n].as<uint8_t>()]){
+  for (const auto & n : axis_names_) {
+    if (msg->axes[input_[n].as<uint8_t>()]) {
       RCLCPP_INFO_STREAM(this->get_logger(), "Pressed " << n << " : axis " << input_[n]);
     }
   }
@@ -89,8 +92,8 @@ void TeleopJoy::joy_callback(sensor_msgs::msg::Joy::ConstSharedPtr msg)
     "L_stick_push",
     "R_stick_push"
   };
-  for(const auto &n : buttons_names_){
-    if(msg->buttons[input_[n].as<uint8_t>()]){
+  for (const auto & n : buttons_names_) {
+    if (msg->buttons[input_[n].as<uint8_t>()]) {
       RCLCPP_INFO_STREAM(this->get_logger(), "Pressed " << n << " : button " << input_[n]);
     }
   }

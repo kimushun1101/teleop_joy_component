@@ -39,6 +39,6 @@ private:
   YAML::Node input_;
 };
 
-}  // namespace teleop_joy 
+}  // namespace teleop_joy
 
 #endif  // JOY_TO_CMD_VEL_COMPONENT_HPP_

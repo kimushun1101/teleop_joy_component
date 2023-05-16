@@ -7,10 +7,22 @@ The following 2 compositions are launched.
 ## How to use it
 1. `git clone` into `your_ros2_workspace/src`.
 2. `rosdep install`, `colcon build`, and `source your_ros2_workspace/install/setup.bash`
-3. Edit `teleop_joy/config/param.yaml`
-4. `ros2 launch teleop_joy teleop_joy.py`
+3. `ros2 launch teleop_joy teleop_joy.py`
 
-## Configuration `param.yaml`
+## Create assignment file
+If your controller is not included in the `config` directory, create a new yaml file.
+```
+./script/1_make_new_assignment.bash YOUR_CONTROLLER.yaml
+```
+If it does not work well, make sure all values of `/joy` topic are `0` in the following command.
+```
+# first terminal
+ros2 run joy joy_node
+# second terminal
+ros2 topic ehoc /joy
+```
+If you find a non-zero value, copy the other yaml file and rewrite it yourself.
+Edit `config/param.yaml` to use the file you have created.
 
 ## Reference
 - [teleop_twist_joy](https://github.com/ros2/teleop_twist_joy)

@@ -25,6 +25,10 @@ TeleopJoy::TeleopJoy(const rclcpp::NodeOptions & options)
 : Node("teleop_joy", options)
 {
   this->declare_parameter<std::string>("assignment_file", "assignment.yaml");
+  this->declare_parameter<std::string>("cmd_vel_topic_name", "cmd_vel");
+  this->declare_parameter<double>("max.v", 1.0);
+  this->declare_parameter<double>("max.w", 1.0);
+
   auto path = ament_index_cpp::get_package_share_directory("teleop_joy") + "/config/" + this->get_parameter("assignment_file").as_string();
   try{
     RCLCPP_INFO_STREAM(this->get_logger(), "Success to open " << path);
@@ -34,7 +38,6 @@ TeleopJoy::TeleopJoy(const rclcpp::NodeOptions & options)
     RCLCPP_ERROR_STREAM(this->get_logger(), "Edit 'assignment_file' in 'config/param.yaml' then colcon build");
   }
 
-  this->declare_parameter<std::string>("cmd_vel_topic_name", "cmd_vel");
   auto cmd_vel_topic_name = this->get_parameter("cmd_vel_topic_name").as_string();
   sub_ = create_subscription<sensor_msgs::msg::Joy>("joy", 1, std::bind(&TeleopJoy::joy_callback, this, _1));
   pub_ = create_publisher<geometry_msgs::msg::Twist>(cmd_vel_topic_name, 1);
@@ -45,9 +48,11 @@ void TeleopJoy::joy_callback(sensor_msgs::msg::Joy::ConstSharedPtr msg)
   // Publish cmd_vel
   geometry_msgs::msg::Twist cmd_vel;
   if(msg->buttons[input_["L_trigger_1"].as<uint8_t>()]){
-    cmd_vel.linear.x = msg->axes[input_["L_stick_ver"].as<uint8_t>()];
-    cmd_vel.linear.y = msg->axes[input_["L_stick_hoz"].as<uint8_t>()];
-    cmd_vel.angular.z = msg->axes[input_["R_stick_hoz"].as<uint8_t>()];
+    auto v_max = this->get_parameter("max.v").as_double();
+    auto w_max = this->get_parameter("max.w").as_double();
+    cmd_vel.linear.x = v_max * msg->axes[input_["L_stick_ver"].as<uint8_t>()];
+    cmd_vel.linear.y = v_max * msg->axes[input_["L_stick_hoz"].as<uint8_t>()];
+    cmd_vel.angular.z = w_max * msg->axes[input_["R_stick_hoz"].as<uint8_t>()];
     RCLCPP_DEBUG_STREAM(this->get_logger(),"[linear.x, linear.y, angular.z] = ["
       << cmd_vel.linear.x << ", " << cmd_vel.linear.y << ", " << cmd_vel.angular.z << "]");
   }

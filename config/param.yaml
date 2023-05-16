@@ -3,3 +3,6 @@ teleop_joy:
     # assignment_file : "JC-U3912TBK.yaml"
     assignment_file : "F710_D_input.yaml"
     cmd_vel_topic_name : "cmd_vel"
+    max : 
+      v : 1.0
+      w : 1.0

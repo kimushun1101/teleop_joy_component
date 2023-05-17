@@ -45,6 +45,7 @@ TeleopJoy::TeleopJoy(const rclcpp::NodeOptions & options)
 
 void TeleopJoy::joy_callback(sensor_msgs::msg::Joy::ConstSharedPtr msg)
 {
+  auto & clk = *this->get_clock();
   // Publish cmd_vel
   geometry_msgs::msg::Twist cmd_vel;
   if (msg->buttons[input_["L_trigger_1"].as<uint8_t>()]) {
@@ -53,16 +54,15 @@ void TeleopJoy::joy_callback(sensor_msgs::msg::Joy::ConstSharedPtr msg)
     cmd_vel.linear.x = v_max * msg->axes[input_["L_stick_ver"].as<uint8_t>()];
     cmd_vel.linear.y = v_max * msg->axes[input_["L_stick_hoz"].as<uint8_t>()];
     cmd_vel.angular.z = w_max * msg->axes[input_["R_stick_hoz"].as<uint8_t>()];
-    RCLCPP_DEBUG_STREAM(
-      this->get_logger(), "[linear.x, linear.y, angular.z] = ["
+    RCLCPP_INFO_STREAM_THROTTLE(
+      this->get_logger(), clk, 500, "[linear.x, linear.y, angular.z] = ["
         << cmd_vel.linear.x << ", " << cmd_vel.linear.y << ", " << cmd_vel.angular.z << "]");
   }
   this->pub_->publish(cmd_vel);
 
   // Template for detecting a button
   if (msg->buttons[input_["L_btn_right"].as<uint8_t>()]) {
-    RCLCPP_DEBUG_STREAM(
-      this->get_logger(),
+    RCLCPP_INFO_STREAM_THROTTLE(this->get_logger(), clk, 500,
       "Pressed " << "L_btn_right" << " : button " << input_["L_btn_right"]);
   }
 
@@ -77,7 +77,8 @@ void TeleopJoy::joy_callback(sensor_msgs::msg::Joy::ConstSharedPtr msg)
   };
   for (const auto & n : axis_names_) {
     if (msg->axes[input_[n].as<uint8_t>()]) {
-      RCLCPP_DEBUG_STREAM(this->get_logger(), "Pressed " << n << " : axis " << input_[n]);
+      RCLCPP_INFO_STREAM_THROTTLE(this->get_logger(), clk, 500,
+        "Pressed " << n << " : axis " << input_[n]);
     }
   }
   std::vector<std::string> buttons_names_ = {
@@ -94,7 +95,8 @@ void TeleopJoy::joy_callback(sensor_msgs::msg::Joy::ConstSharedPtr msg)
   };
   for (const auto & n : buttons_names_) {
     if (msg->buttons[input_[n].as<uint8_t>()]) {
-      RCLCPP_DEBUG_STREAM(this->get_logger(), "Pressed " << n << " : button " << input_[n]);
+      RCLCPP_INFO_STREAM_THROTTLE(this->get_logger(), clk, 500,
+        "Pressed " << n << " : button " << input_[n]);
     }
   }
 }

@@ -5,8 +5,8 @@ The following 2 compositions are launched.
 - teleop_joy joy_to_cmd_vel_composition
 
 ## How to use it
-1. `git clone` into `your_ros2_workspace/src`.
-2. `rosdep install`, `colcon build`, and `source your_ros2_workspace/install/setup.bash`
+1. `git clone` into `${your_ros2_workspace}/src`.
+2. `rosdep install --from-paths src`, `colcon build`, and `. install/setup.bash` on ${your_ros2_workspace}.
 3. `ros2 launch teleop_joy teleop_joy.py`
 
 ## Create assignment file
@@ -18,6 +18,8 @@ If it does not work well, make sure all values of `/joy` topic are `0` in the fo
 ```
 # first terminal
 ros2 run joy joy_node
+```
+```
 # second terminal
 ros2 topic ehoc /joy
 ```

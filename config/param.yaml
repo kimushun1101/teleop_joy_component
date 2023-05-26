@@ -4,5 +4,5 @@ teleop_joy:
     assignment_file : "F710_D_input.yaml"
     cmd_vel_topic_name : "cmd_vel"
     max : 
-      v : 1.0
+      v : 0.3
       w : 1.0

@@ -22,7 +22,7 @@ if [ $# -eq 1 ]; then
   colcon build --symlink-install --packages-select teleop_joy
   . install/local_setup.bash
   cd $script_dir/../config # config directory
-  ros2 launch teleop_joy config_joy_launch.py file_name:=$1
+  ros2 launch teleop_joy config_joy.launch.py file_name:=$1
   echo -e "\033[32mEdit $(pwd)/param.yaml\033[m"
   echo -e "\033[32mthen Rebuild\033[m"
 else

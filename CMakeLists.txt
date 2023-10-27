@@ -13,18 +13,14 @@
 # limitations under the License.
 
 cmake_minimum_required(VERSION 3.8)
-project(teleop_joy)
-
-if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
-  add_compile_options(-Wall -Wextra -Wpedantic)
-endif()
+project(teleop_joy_component)
 
 find_package(ament_cmake_auto REQUIRED)
 ament_auto_find_build_dependencies()
 
-ament_auto_add_library(teleop_joy SHARED src/teleop_joy.cpp)
-target_link_libraries(teleop_joy yaml-cpp) # Why is it necessary?
-rclcpp_components_register_nodes(teleop_joy "teleop_joy::TeleopJoy")
+ament_auto_add_library(teleop_joy_component SHARED src/teleop_joy_component.cpp)
+target_link_libraries(teleop_joy_component yaml-cpp) # Why is it necessary?
+rclcpp_components_register_nodes(teleop_joy_component "teleop_joy_component::TeleopJoy")
 ament_auto_add_executable(config_joy src/config_joy.cpp)
 
 install(DIRECTORY

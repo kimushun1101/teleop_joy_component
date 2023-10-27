@@ -15,14 +15,14 @@
 #ifndef JOY_TO_CMD_VEL_COMPONENT_HPP_
 #define JOY_TO_CMD_VEL_COMPONENT_HPP_
 
-#include "teleop_joy/visibility_control.h"
+#include "teleop_joy_component/visibility_control.h"
 #include <rclcpp/rclcpp.hpp>
 #include <ament_index_cpp/get_package_share_directory.hpp>
 #include <geometry_msgs/msg/twist.hpp>
 #include <sensor_msgs/msg/joy.hpp>
 #include <yaml-cpp/yaml.h>
 
-namespace teleop_joy
+namespace teleop_joy_component
 {
 
 class TeleopJoy : public rclcpp::Node
@@ -39,6 +39,6 @@ private:
   YAML::Node input_;
 };
 
-}  // namespace teleop_joy
+}  // namespace teleop_joy_component
 
 #endif  // JOY_TO_CMD_VEL_COMPONENT_HPP_

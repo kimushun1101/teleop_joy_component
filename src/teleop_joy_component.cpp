@@ -12,19 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "teleop_joy/teleop_joy.hpp"
+#include "teleop_joy_component/teleop_joy_component.hpp"
 
-namespace teleop_joy
+namespace teleop_joy_component
 {
 TeleopJoy::TeleopJoy(const rclcpp::NodeOptions & options)
-: Node("teleop_joy", options)
+: Node("teleop_joy_component", options)
 {
   this->declare_parameter<std::string>("assignment_file", "assignment.yaml");
   this->declare_parameter<std::string>("cmd_vel_topic_name", "cmd_vel");
   this->declare_parameter<double>("max.v", 1.0);
   this->declare_parameter<double>("max.w", 1.0);
 
-  auto path = ament_index_cpp::get_package_share_directory("teleop_joy") + "/config/" +
+  auto path = ament_index_cpp::get_package_share_directory("teleop_joy_component") + "/config/" +
     this->get_parameter("assignment_file").as_string();
   try {
     RCLCPP_INFO_STREAM(this->get_logger(), "Success to open " << path);
@@ -101,7 +101,7 @@ void TeleopJoy::joy_callback(sensor_msgs::msg::Joy::ConstSharedPtr msg)
   }
 }
 
-}  // namespace teleop_joy
+}  // namespace teleop_joy_component
 
 #include "rclcpp_components/register_node_macro.hpp"
-RCLCPP_COMPONENTS_REGISTER_NODE(teleop_joy::TeleopJoy)
+RCLCPP_COMPONENTS_REGISTER_NODE(teleop_joy_component::TeleopJoy)

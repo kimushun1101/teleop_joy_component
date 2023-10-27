@@ -29,7 +29,7 @@ def generate_launch_description():
         executable='joy_node',
     )
     config_joy_node = Node(
-        package='teleop_joy',
+        package='teleop_joy_component',
         executable='config_joy',
         parameters=[{"file_name": LaunchConfiguration('file_name')}]
     )

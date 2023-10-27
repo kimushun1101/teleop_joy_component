@@ -1,13 +1,13 @@
-# teleop_joy package
+# teleop_joy_component package
 This package translates `/joy` topic into `/cmd_vel` topic on **ROS 2 Composition**.  
 The following 2 compositions are launched.
 - joy joy_node
-- teleop_joy joy_to_cmd_vel_composition
+- teleop_joy_component joy_to_cmd_vel_composition
 
 ## How to use it
 1. `git clone` into `${your_ros2_workspace}/src`.
 2. `rosdep install --from-paths src`, `colcon build`, and `. install/setup.bash` on ${your_ros2_workspace}.
-3. `ros2 launch teleop_joy teleop_joy.launch.py`
+3. `ros2 launch teleop_joy_component teleop_joy_component.launch.py`
 
 ## Create assignment file
 If your controller is not included in the `config` directory, create a new yaml file.

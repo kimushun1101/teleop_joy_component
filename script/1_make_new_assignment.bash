@@ -23,8 +23,7 @@ if [ $# -eq 1 ]; then
   . install/local_setup.bash
   cd $script_dir/../config # config directory
   ros2 launch teleop_joy_component config_joy.launch.py file_name:=$1
-  echo -e "\033[32mEdit $(pwd)/param.yaml\033[m"
-  echo -e "\033[32mthen Rebuild\033[m"
+  echo -e "\033[32mEdit $(pwd)/param.yaml then Rebuild\033[m"
 else
   echo -e "\033[31mSet the file name in the argument\033[m"
   echo -e "\033[31mex.) ./1_make_new_assignment.bash assinment.yaml\033[m"

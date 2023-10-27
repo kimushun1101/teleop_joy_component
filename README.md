@@ -5,26 +5,21 @@ The following 2 compositions are launched.
 - teleop_joy_component joy_to_cmd_vel_composition
 
 ## How to use it
-1. `git clone` into `${your_ros2_workspace}/src`.
-2. `rosdep install --from-paths src`, `colcon build`, and `. install/setup.bash` on ${your_ros2_workspace}.
-3. `ros2 launch teleop_joy_component teleop_joy_component.launch.py`
-
-## Create assignment file
-If your controller is not included in the `config` directory, create a new yaml file.
-```
-./script/1_make_new_assignment.bash YOUR_CONTROLLER.yaml
-```
-If it does not work well, make sure all values of `/joy` topic are `0` in the following command.
-```
-# first terminal
-ros2 run joy joy_node
-```
-```
-# second terminal
-ros2 topic ehoc /joy
-```
-If you find a non-zero value, copy the other yaml file and rewrite it yourself.
-Edit `config/param.yaml` to use the file you have created.
+1. (Optional) `Use this template` and `Create a new repository`.
+2. `git clone` into `${ROS_WORKSPACE}/src`.
+    Replace `ROS_WORKSPACE` and `GitHub URL`, then command the following.
+    ```
+    export ROS_WORKSPACE=$HOME/ros2_ws
+    mkdir -p $ROS_WORKSPACE/src && cd $ROS_WORKSPACE/src
+    git clone git@github.com:kimushun1101/teleop_joy_component_template.git
+    rosdep install -riy --from-paths $ROS_WORKSPACE/src/teleop_joy_component_template
+    ```
+3. `cd ${THIS_PKG_DIR}`, then execute scripts in `script` directory.
+    ```
+    ./script/1_rename_pkg_name_into_the_same_as_directory_name
+    ./script/2_make_new_assignment.bash
+    ./script/3_rebuild_and_launch.bash
+    ```
 
 ## Reference
 - [teleop_twist_joy](https://github.com/ros2/teleop_twist_joy)

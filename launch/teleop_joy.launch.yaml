@@ -1,0 +1,21 @@
+launch:
+    - node_container:
+        pkg: "rclcpp_components"
+        exec: "component_container"
+        name: "teleop_joy_container"
+        namespace: ""
+        composable_node:
+        -
+            pkg: joy
+            plugin: "joy::Joy"
+            name: "joy"
+        -
+            pkg: teleop_joy_component
+            plugin: "teleop_joy_component::TeleopJoy"
+            name: "teleop_joy_component"
+            param:
+            # - {name: assignment_file, value: JC-U3912TBK.yaml}
+            - {name: assignment_file, value: F710_D_input.yaml}
+            - {name: cmd_vel_topic_name, value: cmd_vel}
+            - {name: max.v, value: 0.3}
+            - {name: max.w, value: 0.5}

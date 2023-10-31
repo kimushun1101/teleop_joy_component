@@ -22,7 +22,7 @@ if [ "$pkg_directory_name" = "$orig_name" ]; then
   echo "The current package name is the same as the directory name"
   exit
 else
-  find $pkg_directory -type f -exec sed -i "s/$orig_name/$pkg_directory_name/g" {} +
+  find $pkg_directory -type f -not -path $pkg_directory'/.git/*' -exec sed -i "s/$orig_name/$pkg_directory_name/g" {} +
   mv $pkg_directory/include/$orig_name $pkg_directory/include/$pkg_directory_name
   mv $pkg_directory/include/$pkg_directory_name/$orig_name.hpp $pkg_directory/include/$pkg_directory_name/$pkg_directory_name.hpp
   mv $pkg_directory/src/$orig_name.cpp $pkg_directory/src/$pkg_directory_name.cpp

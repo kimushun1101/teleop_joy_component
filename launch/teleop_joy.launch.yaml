@@ -1,21 +1,26 @@
 launch:
-    - node_container:
-        pkg: "rclcpp_components"
-        exec: "component_container"
-        name: "teleop_joy_container"
-        namespace: ""
-        composable_node:
-        -
-            pkg: joy
-            plugin: "joy::Joy"
-            name: "joy"
-        -
-            pkg: teleop_joy_component
-            plugin: "teleop_joy_component::TeleopJoy"
-            name: "teleop_joy_component"
-            param:
-            # - {name: assignment_file, value: JC-U3912TBK.yaml}
-            - {name: assignment_file, value: F710_D_input.yaml}
-            - {name: cmd_vel_topic_name, value: cmd_vel}
-            - {name: max.v, value: 0.3}
-            - {name: max.w, value: 0.5}
+- arg: {name: assignment_file, default: JC-U3912TBK.yaml}
+# - arg: {name: assignment_file, default: F710_D_input.yaml}
+- arg: {name: cmd_vel_topic_name, default: cmd_vel}
+- arg: {name: max.v, default: "0.3"}
+- arg: {name: max.w, default: "0.5"}
+
+- node_container:
+    pkg: "rclcpp_components"
+    exec: "component_container"
+    name: "teleop_joy_container"
+    namespace: ""
+    composable_node:
+    -
+        pkg: joy
+        plugin: "joy::Joy"
+        name: "joy"
+    -
+        pkg: teleop_joy_component
+        plugin: "teleop_joy_component::TeleopJoy"
+        name: "teleop_joy_component"
+        param:
+        - {name: assignment_file, value: $(var assignment_file)}
+        - {name: cmd_vel_topic_name, value: $(var cmd_vel_topic_name)}
+        - {name: max.v, value: $(var max.v)}
+        - {name: max.w, value: $(var max.w)}

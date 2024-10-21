@@ -21,8 +21,8 @@ TeleopJoy::TeleopJoy(const rclcpp::NodeOptions & options)
 {
   this->declare_parameter<std::string>("assignment_file", "assignment.yaml");
   this->declare_parameter<std::string>("cmd_vel_topic_name", "cmd_vel");
-  this->declare_parameter<double>("max.v", 1.0);
-  this->declare_parameter<double>("max.w", 1.0);
+  this->declare_parameter<double>("max.v", 0.3);
+  this->declare_parameter<double>("max.w", 0.5);
 
   auto path = ament_index_cpp::get_package_share_directory("teleop_joy_component") + "/config/" +
     this->get_parameter("assignment_file").as_string();
